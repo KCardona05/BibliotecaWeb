@@ -1,0 +1,92 @@
+{% extends 'index.html' %}
+{% block title %}Gestionar Préstamos{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Gestión de Préstamos</h2>
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Libro</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in prestamos %}
+            <tr>
+                <td>{{ p[0] }}</td>
+                <td>{{ p[2] }}</td>
+                <td>{{ p[3] }}</td>
+                <td>{{ p[4] }}</td>
+                <td><span
+                        class="badge bg-{{ 'success' if p[1] == 'aprobado' else 'danger' if p[1] == 'rechazado' else 'warning' }}">{{
+                        p[1] }}</span></td>
+                <td>
+                    <a href="{{ url_for('admin.aprobar_prestamo', idprestamo=p[0]) }}"
+                        class="btn btn-sm btn-success">Aprobar</a>
+                    <a href="{{ url_for('admin.rechazar_prestamo', idprestamo=p[0]) }}"
+                        class="btn btn-sm btn-danger">Rechazar</a>
+                    <a href="{{ url_for('admin.eliminar_prestamo', idprestamo=p[0]) }}"
+                        class="btn btn-sm btn-secondary">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script>
+    // Función para aprobar o rechazar préstamo
+    function actualizarEstado(idPrestamo, estado) {
+        fetch(`/aprobar_prestamo/${idPrestamo}`, {
+            method: 'GET', // Cambié el método a GET, según tu ruta
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Cambiar el estado visualmente
+                const estadoCell = document.querySelector(`#prestamo-${idPrestamo} td:nth-child(5)`);
+                estadoCell.innerHTML = `<span class="badge bg-${estado === 'aprobado' ? 'success' : 'danger'}">${estado}</span>`;
+                window.location.reload(); // Recargar la página para reflejar los cambios
+            } else {
+                alert('Error al actualizar el estado');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al procesar la solicitud');
+        });
+    }
+
+    // Función para eliminar un préstamo
+    function eliminarPrestamo(idPrestamo) {
+        if (confirm('¿Estás seguro de que quieres eliminar este préstamo?')) {
+            fetch(`/eliminar_prestamo/${idPrestamo}`, {
+                method: 'GET', // Cambié el método a GET, según tu ruta
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const row = document.querySelector(`#prestamo-${idPrestamo}`);
+                    row.remove(); // Eliminar la fila de la tabla
+                } else {
+                    alert('Error al eliminar el préstamo');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al procesar la solicitud');
+            });
+        }
+    }
+</script>
+{% endblock %}

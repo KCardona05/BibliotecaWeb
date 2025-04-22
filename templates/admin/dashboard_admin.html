@@ -1,0 +1,37 @@
+{% extends 'index.html' %}
+{% block title %}Panel de Administrador{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Panel de Administración</h2>
+
+    <div class="btn-group">
+      <a href="{{ url_for('admin.gestionar_prestamos') }}" class="btn btn-secondary">gestionar préstamos</a>
+  </div>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in usuarios %}
+            <tr>
+                <td>{{ u[0] }}</td>
+                <td>{{ u[1] }}</td>
+                <td>{{ u[2] }}</td>
+                <td>{{ u[3] }}</td>
+                <td>
+                    <a href="{{ url_for('admin.actualizar_usuario', id=u[0]) }}" class="btn btn-sm btn-primary">Editar</a>
+                    <a href="{{ url_for('admin.eliminar_usuario', id=u[0]) }}" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

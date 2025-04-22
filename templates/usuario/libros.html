@@ -1,0 +1,22 @@
+<!-- templates/usuario/libros.html -->
+{% extends 'index.html' %}
+
+{% block content %}
+    <h2>Libros disponibles</h2>
+    <div class="row">
+        {% for libro in libros %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ libro[1] }}</h5>
+                        <p class="card-text">Autor: {{ libro[2] }}</p>
+                        <p class="card-text"><strong>Disponible</strong></p>
+                        <a href="{{ url_for('user.solicitar_prestamo', libro_id=libro[0]) }}" class="btn btn-primary">Solicitar préstamo</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>No hay libros disponibles en este momento.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

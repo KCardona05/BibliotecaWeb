@@ -1,0 +1,36 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Bienvenido al Sistema de Biblioteca</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <!-- Formulario de Inicio de Sesión -->
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo electrónico</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                </div>
+            </form>
+
+            <!-- Separador -->
+            <hr class="my-4">
+
+            <!-- Botón de Registro -->
+            <div class="text-center">
+                <p>¿No tienes cuenta aún?</p>
+                <a href="{{ url_for('user.registrar_usuario') }}" class="btn btn-outline-secondary">Registrarse</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

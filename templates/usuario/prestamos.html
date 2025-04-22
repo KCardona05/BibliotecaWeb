@@ -1,0 +1,28 @@
+<!-- templates/usuario/mis_prestamos.html -->
+{% extends 'index.html' %}
+
+{% block content %}
+    <h2>Mis préstamos</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prestamo in prestamos %}
+                <tr>
+                    <td>{{ prestamo[1] }}</td>
+                    <td>{{ prestamo[2] }}</td>
+                    <td>{{ prestamo[3] }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">No tienes préstamos activos.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

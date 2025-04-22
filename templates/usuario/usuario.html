@@ -1,0 +1,12 @@
+<!-- templates/usuario/dashboard_usuario.html -->
+{% extends 'index.html' %}
+
+{% block content %}
+    <h2>Bienvenido, {{ session['usu_nombre'] }}</h2>
+    <p>Desde aquí puedes gestionar tus préstamos y ver los libros disponibles.</p>
+
+    <div class="btn-group">
+        <a href="{{ url_for('user.ver_libros') }}" class="btn btn-primary">Ver libros disponibles</a>
+        <a href="{{ url_for('user.mis_prestamos') }}" class="btn btn-secondary">Ver mis préstamos</a>
+    </div>
+{% endblock %}
