@@ -10,7 +10,7 @@ mysql = conectar_db()
 
 @admin_bp.route('/admin')
 def dashboard_admin():
-    if 'id_usuario' in session and session['usu_rol'] == 'administrador':
+    if session['usu_rol'] == 'administrador':
         conn = mysql.cursor()  # Usamos mysql.connection directamente
         conn.execute(
             "SELECT id_usuario, usu_nombre, usu_correo, usu_rol FROM usuarios")
@@ -29,7 +29,7 @@ def dashboard_admin():
 
 @admin_bp.route('/eliminar/<int:id>', methods=['GET'])
 def eliminar_usuario(id):
-    if 'id_usuario' in session and session['usu_rol'] == 'administrador':
+    if  session['usu_rol'] == 'administrador':
         conn = mysql.cursor()
         conn.execute("DELETE FROM usuarios WHERE id_usuario = %s", (id,))
         mysql.commit()
@@ -93,7 +93,7 @@ def actualizar_usuario(id):
 
 @admin_bp.route('/gestionar_prestamos')
 def gestionar_prestamos():
-    if 'id_usuario' in session and session['usu_rol'] == 'administrador':
+    if session['usu_rol'] == 'administrador':
         conn = mysql.cursor(MySQLdb.cursors.DictCursor)
         conn.execute("""
             SELECT p.id_prestamo, p.estado, u.usu_nombre, l.lib_titulo, p.fecha
@@ -112,7 +112,7 @@ def gestionar_prestamos():
 
 @admin_bp.route('/aprobar_prestamo/<int:idprestamo>', methods=['GET'])
 def aprobar_prestamo(idprestamo):
-    if 'id_usuario' in session and session['usu_rol'] == 'administrador':
+    if  session['usu_rol'] == 'administrador':
         conn = mysql.cursor()
         conn.execute(
             "UPDATE prestamos SET estado = 'aprobado' WHERE id_prestamo = %s", (idprestamo,))
@@ -125,7 +125,7 @@ def aprobar_prestamo(idprestamo):
 
 @admin_bp.route('/rechazar_prestamo/<int:idprestamo>', methods=['GET'])
 def rechazar_prestamo(idprestamo):
-    if 'id_usuario' in session and session['usu_rol'] == 'administrador':
+    if  session['usu_rol'] == 'administrador':
         conn = mysql.cursor()
         conn.execute(
             "UPDATE prestamos SET estado = 'rechazado' WHERE id_prestamo = %s", (idprestamo,))
@@ -138,7 +138,7 @@ def rechazar_prestamo(idprestamo):
 
 @admin_bp.route('/eliminar_prestamo/<int:idprestamo>', methods=['GET'])
 def eliminar_prestamo(idprestamo):
-    if 'id_usuario' in session and session['usu_rol'] == 'administrador':
+    if  session['usu_rol'] == 'administrador':
         conn = mysql.cursor()
 
         # Obtenemos el ID del libro asociado al préstamo
