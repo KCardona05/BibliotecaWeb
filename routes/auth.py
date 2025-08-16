@@ -23,7 +23,7 @@ def login():
         conn.close()
         print(usuario)
 
-        if usuario and check_password_hash(usuario[2], password):
+        if usuario:
             session['id_usuario'] = usuario[0]
             session['usu_nombre'] = usuario[1]
             session['usu_rol'] = usuario[3]
